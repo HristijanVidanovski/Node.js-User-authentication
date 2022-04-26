@@ -119,7 +119,7 @@ router.post('/signUp',checkConfirmPassword, async  (req, res)=> {
       try {
          const user = await User.findByCredentials(req.body.emailFromUser, req.body.passwordFromUser)
          const token = await user.generateAuthToken()
-         //console.log(token)
+         
          res.json({ user, token, redirect_path: "/profilePage" })      
       } catch (e) {   
          res.json({error:'Email or password incorrect' }) 
@@ -142,8 +142,7 @@ router.post('/signUp',checkConfirmPassword, async  (req, res)=> {
 
 
      //logout user
-     router.post('/logout',auth, async (req, res) => {
-        
+    
       try {
         req.user.tokens = req.user.tokens.filter((token)=> {
            return token.token != req.token
