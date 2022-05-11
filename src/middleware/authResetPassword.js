@@ -1,5 +1,4 @@
 const User = require('../models/users')
-
 const authResetPassword = async (req, res, next) => {
   const jwt = require('jsonwebtoken')
   const token = req.params.token
@@ -9,10 +8,8 @@ const authResetPassword = async (req, res, next) => {
       if(!user){throw new Error}
       req.user = user 
     } catch (err) {
-      req.message = 'Error reset password. Try again'
-      
+      req.message = 'Error reset password. Try again' 
     }
     return next()
   }
-  
   module.exports = authResetPassword

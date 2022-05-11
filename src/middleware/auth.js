@@ -1,5 +1,4 @@
 const User = require('../models/users')
-
 const auth = async (req, res, next) => {
   const jwt = require('jsonwebtoken')
   const token = req.header("Bearer")// token from client auth
@@ -10,9 +9,7 @@ const auth = async (req, res, next) => {
       req.token = token
     } catch (err) {
       res.message = 'Error login'
-      
     }
     return next()
   }
-  
   module.exports = auth

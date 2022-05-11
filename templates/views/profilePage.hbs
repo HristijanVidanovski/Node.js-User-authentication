@@ -1,94 +1,34 @@
-
-
-
-    
-    
   
-    
     <!DOCTYPE html>
 <html>
     <head>
-        
         <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
-        
         <meta name="google-signin-client_id" content="143381467912-9mgbakvdnvmbl7535cj3i7hdv7dcq7of.apps.googleusercontent.com">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="icon" href="/img/weather.png"></link>
         <link rel="stylesheet" href ="/css/stylesProfile.css"> 
-        
-        </head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
     
     <body>
-        <!-- Add icon library -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
- <div class = "main-content">
-     {{>header}}        
-  <div class="container">
-    <h1 style="text-align: center;">My profile</h1>
-        <hr>
-    <div  id="profileImage" class="imageStyle"></div>
-
-    <form  id="myForm" >
-    <input type="file" id="inpFile" name='inpFile' class="uploadbox"><br>
- 
-<button type="submit" class="uploadPhotoStyle">Upload photo</button>
-</form>
-
- <p id ="email_profilepage" class="emailStyle" ></p>
-  
-<button id="logoutButton"  >Logout</button>
-
-  </div>
-  
-  </div>
-  
- 
-
-
-
-
-
-
-  
-     
-
-
-
- 
-
-
- 
-
-</div>
-
-
-
- 
-
-
-
-
-
- 
-  
-
-
-</body>
+        <div class = "main-content">
+        {{>header}}        
+            <div class="container">
+                <h1 style="text-align: center;">My profile</h1>
+                 <hr>
+                <div  id="profileImage" class="imageStyle"></div>
+                <form  id="myForm" >
+                    <input type="file" id="inpFile" name='inpFile' class="uploadbox"><br>
+                    <button type="submit" class="uploadPhotoStyle">Upload photo</button>
+                </form>
+                <p id ="email_profilepage" class="emailStyle" ></p>
+                <button id="logoutButton"  >Logout</button>
+            </div>
+        </div>
+    <script  src="/js/profile.js"></script>
+    </body>       
 </html>
-
-            
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-</head>
-<body>
-
-    
-  
-       <script  src="/js/profile.js"></script>
-     
-    </body>
-    </html>
     
     
     

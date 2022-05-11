@@ -1,16 +1,7 @@
 const validatePassword = (req, res, next) => {
-    
     if(req.body.repeatPasswordFromUser !== req.body.passwordFromUser) {
         req.message='Passwords do not match'
-        
         }
-     next()
-
-     
-        
-    
-    
-    
+     next() 
 }
-
 module.exports = validatePassword

@@ -13,28 +13,25 @@ const authResetPassword = require('../middleware/authResetPassword')
 const authGoogle = require('../middleware/authGoogle')
 const { check, validationResult } = require('express-validator')
 const forgotPasswordSendMail = require('../emails/forgotPasswordSendEmail')
-
 const router =  new express.Router() // create new route
-//620cb925cdee6a1f988bffc6
 
-router.post('/uploadProfileImage',auth, uploadProfileImage.single('inpFile'), function (req, res) {
-
+router.post('/uploadProfileImage',auth, uploadProfileImage.single('inpFile'),  function (req, res) {
    const user = req.user
-   user.profileImageName=req.file.filename
+   user.profileImageName=req.file.filename//add name of uploadimage to database
    user.save() 
    res.json({profileImageFileName: user.profileImageName, redirect_path:"/profilePage" }) 
  })
 
+ //router for adding new password
 router.post('/forgotPasswordReset/:token',ResetPasswordConfirmPassword, authResetPassword, async (req, res) => {
    try {
       if(req.message){
-         return res.json({message:req.message })
+         return res.json({message:req.message })//send error to client
       }
       const user = req.user
-      user.passwordFromUser=req.body.newPasswordReset
-      //user.tokens=[]
+      user.passwordFromUser=req.body.newPasswordReset// add new password
+      user.tokens=[]
       await user.save()   
-     
       res.json({message:'Password has been successfully changed' }) 
    } catch (e) {  
       console.log(e) 
@@ -42,6 +39,7 @@ router.post('/forgotPasswordReset/:token',ResetPasswordConfirmPassword, authRese
    }
   })
 
+  //route for forgot passord-Find user by email
 router.post('/forgotPasswordEmail', async (req, res) => {
    try {
       const forgotPasswordFindUserByEmail = await User.findByEmail(req.body.emailResetPassword)//find existing user
@@ -57,17 +55,11 @@ router.post('/forgotPasswordEmail', async (req, res) => {
    }
   })
 
-
-
-
-
+//sign in with google
 router.post('/signInGoogle',authGoogle, async (req, res) => {
-
-   req.message 
    try {
             const user = await User.findByEmail(req.user.email)//find existing user
             if (req.message) { //if found, generate token and send data to client
-               //console.log('error gugl')
                res.json({message: req.message })
             } else if(user) {//if user is found in db genratetoken
                const token = await user.generateAuthToken()
@@ -75,10 +67,8 @@ router.post('/signInGoogle',authGoogle, async (req, res) => {
                res.json({ token, email: req.user.email, redirect_path:"/profilePage", message: 'User exist and signed in with Google' })
             } else { //if not found, create new user, generate token, save  and send data to client.Get data from google for user.
                const user = new User({emailFromUser:req.user.email})
-               
                const token = await user.generateAuthToken()
                await user.save()  
-             
                res.json({ token, email: req.user.email, redirect_path:"/profilePage", message: 'User not exist, saved and signedin with Google' })
             }
    } catch (e) {  
@@ -86,17 +76,15 @@ router.post('/signInGoogle',authGoogle, async (req, res) => {
    }
 })
 
-
+//signUp with credentials
 router.post('/signUp',checkConfirmPassword, async  (req, res)=> {
    try {
       const Exsitinguser = await User.findByEmail(req.body.emailFromUser)//find existing user
-     
       if (req.message) {
             res.json({message: req.message })//password match middleware
        } else if (!Exsitinguser) { //create new user
             const user = new User(req.body)
             const token = await user.generateAuthToken()
-           // console.log(token)
             await user.save()   
             res.json({ token, email: req.body.email, redirect_path:"/profilePage",message: 'User is not found. Register and save' }) 
        } else if (!Exsitinguser.passwordFromUser) {//User with no password->signin with google
@@ -108,41 +96,29 @@ router.post('/signUp',checkConfirmPassword, async  (req, res)=> {
             res.json({message: 'User already exist' }) 
        }
    } catch (e) {
-      console.log(e)
       return res.status(500).json({message: 'Internal Server Error'})
    }   
  })
-
-
-
      router.post('/signIn', async (req, res) => {
       try {
          const user = await User.findByCredentials(req.body.emailFromUser, req.body.passwordFromUser)
          const token = await user.generateAuthToken()
-         
          res.json({ user, token, redirect_path: "/profilePage" })      
       } catch (e) {   
          res.json({error:'Email or password incorrect' }) 
-         //res.status(400).send(e)
-         
       }
      })
 
      router.post('/profile',auth, async (req, res) => {    
-      try {
-         //res.redirect("/SignInPage")
-         
-         res.json({email: req.user.emailFromUser, profileImageFileName: req.user.profileImageName})
+      try { 
+       res.json({email: req.user.emailFromUser, profileImageFileName: req.user.profileImageName})
       } catch (e) {
-         //console.log(e)
-         
       }
-      
      })
 
 
-     //logout user
-    
+     //logout user 
+     router.post('/logout',auth, async (req, res) => {    
       try {
         req.user.tokens = req.user.tokens.filter((token)=> {
            return token.token != req.token

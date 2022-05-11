@@ -25,42 +25,25 @@ const userRouter = require('./routers/user')
 app.use(userRouter) // use user router
 
 
-//forgotPasswordReset render
+//render pages
 app.get('/forgotPasswordReset', (req, res) => {// route do about.hbs
-    
     res.render('forgotPasswordReset')
-    })
-
+})
 
 app.get('/signUpPage', (req, res) => {// route do about.hbs
-res.render('signUpPage', {
-    title: 'About me',
-    name: 'Hristijan',
+    res.render('signUpPage')  
 })
-})
-//render signIn page
+
 app.get('/signIn', (req, res) => {// route do about.hbs
-    //res.redirect("/profile")
-    res.render('signInPage', {
-        title: 'About me',
-        name: 'Hristijan',
-    })
-    })
+    res.render('signInPage')
+})
    
-
-    app.get('/profilePage', (req, res) => {// route do about.hbs
-        console.log(req.email)
-        res.render('profilePage')
-        })
-
-    //render signIn page
-/*app.get('/profilePage', (req, res) => {// route do about.hbs
-    console.log('render')
+app.get('/profilePage', (req, res) => {// route do about.hbs
     res.render('profilePage')
-    })
-  */
+})
+
 app.get('/forgotPasswordEmail', (req, res) => {// route do about.hbs
-    res.render('forgotPasswordEmail')
+   res.render('forgotPasswordEmail')
 })
       
 
