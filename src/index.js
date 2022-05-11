@@ -4,7 +4,7 @@ const path = require('path')
 
 //const auth = require('..src/middleware/auth')
 const app = express()
-const port = process.env.PORT
+const port = process.env.PORT || 3000
 require('./db/mongoose')// ne zema nisto samo go run fajlot-connect database
 
 
@@ -49,7 +49,7 @@ app.get('/forgotPasswordEmail', (req, res) => {// route do about.hbs
 
 
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(port, () => {
     console.log('Server is running on port ' + port)
 })
 
